@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en-us">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <title>VLC Wasm Example</title>
+    </head>
+    <body>
+        <div>
+            <canvas id="canvas" style="background-color:gray;"></canvas>
+            <div>
+                <button id="play">Play</button>
+                <button id="pause">Stop</button>
+                <meter id="seekbar" max="100" style="width: 500px" value="0"></meter>
+                <meter id="volume" max="100" style="width: 100px" value="80"></meter>
+                <select id="audioTrack" style="margin-left: 10px;">
+                    <option value="">Audio Track</option>
+                </select>
+                <select id="subtitleTrack" style="margin-left: 10px;">
+                    <option value="">Subtitles</option>
+                </select>
+            </div>
+        </div>
+
+        <script src="./lib-vlc/experimental.js"></script>
+        <script src="./subtitle-renderer.js"></script>
+        <script type="module">
+            import { VLCPlayer } from "./lib-vlc/vlc.js";
+
+            let video = {
+                source: "./hawkeye.mkv",
+                options: "--aout=emworklet_audio",
+                size: { 
+                    width: "700px", 
+                    height: "400px" 
+                },
+            };
+
+            window.onload = async function () {
+                console.log('Starting VLC Player initialization...');
+                try {
+                    await VLCPlayer(video);
+                    console.log('VLC Player initialized successfully');
+                } catch (error) {
+                    console.error('VLC Player initialization failed:', error);
+                }
+            };
+        </script>
+    </body>
+</html>
